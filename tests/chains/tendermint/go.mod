@@ -131,3 +131,4 @@ require (
 )
 
 replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.2-alpha.regen.4
+replace github.com/cosmos/ibc-go v1.0.0-beta1 => ./ibc-go

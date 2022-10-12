@@ -4,6 +4,11 @@ include ../../docker.mk
 build:
 	go build -o ./build/simd ./simapp/simd
 
+.PHONY : clean-images
+clean-images:
+	$(DOCKER) image rm tendermint-chain0 
+	$(DOCKER) image rm tendermint-chain1
+
 .PHONY: docker-images
 docker-images:
 	$(DOCKER_BUILD) \

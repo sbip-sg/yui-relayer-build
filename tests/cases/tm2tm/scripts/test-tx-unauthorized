@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -eux
+
+RELAYER_HOME="unauthorized-yui-relayer"
+SCRIPT_DIR=$(cd $(dirname $0); pwd)
+RLY_BINARY=${SCRIPT_DIR}/../../../../build/yrly
+# RLY="${RLY_BINARY} --debug"
+RLY="${RLY_BINARY} --home ${RELAYER_HOME}"
+
+# XXX set proper value
+TX_INTERNAL=1
+
+TM_ADDRESS0=$(${RLY} tendermint keys show ibc0 testkey)
+TM_ADDRESS1=$(${RLY} tendermint keys show ibc1 testkey)
+
+echo "!!! ibc0 -> ibc1 send 200 !!!"
+
+echo "Before ibc0 balance: $(${RLY} query balance ibc0 ${TM_ADDRESS0})"
+echo "Before ibc1 balance: $(${RLY} query balance ibc1 ${TM_ADDRESS1})"
+
+${RLY} tx transfer ibc01 ibc0 ibc1 200relay ${TM_ADDRESS1}
+sleep ${TX_INTERNAL}
+${RLY} tx relay ibc01
+sleep ${TX_INTERNAL}
+${RLY} tx acks ibc01
+sleep ${TX_INTERNAL}
+echo "After ibc0 balance: $(${RLY} query balance ibc0 ${TM_ADDRESS0})"
+echo "After ibc1 balance: $(${RLY} query balance ibc1 ${TM_ADDRESS1})"
+echo "**********************************************************"
+echo "!!! ibc1 -> ibc0  send back 100!!!"
+
+${RLY} tx transfer ibc01 ibc1 ibc0 100transfer/channel-0/relay ${TM_ADDRESS0}
+sleep ${TX_INTERNAL}
+${RLY} tx relay ibc01
+sleep ${TX_INTERNAL}
+${RLY} tx acks ibc01
+sleep ${TX_INTERNAL}
+echo "After ibc0 balance: $(${RLY} query balance ibc0 ${TM_ADDRESS0})"
+echo "After ibc1 balance: $(${RLY} query balance ibc1 ${TM_ADDRESS1})"

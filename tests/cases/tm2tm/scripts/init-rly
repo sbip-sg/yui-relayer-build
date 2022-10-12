@@ -4,9 +4,9 @@ set -x
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 
-RELAYER_CONF="$HOME/.urelayer"
+RELAYER_HOME="authorized-yui-relayer"
 RLY_BINARY=${SCRIPT_DIR}/../../../../build/yrly
-RLY="${RLY_BINARY} --debug"
+RLY="${RLY_BINARY} --home ${RELAYER_HOME}"
 FIXTURES_DIR=${SCRIPT_DIR}/../fixtures
 
 echo "Generating ${RLY_BINARY} configurations..."
@@ -17,14 +17,20 @@ if ! [ -x ${RLY_BINARY} ]; then
   exit 1
 fi
 
-rm -rf ${RELAYER_CONF} &> /dev/null
+rm -rf ${RELAYER_HOME} &> /dev/null
 
 ${RLY} config init
 ${RLY} chains add-dir configs/demo/
 
 # setup key for tendermint client
-SEED0=$(jq -r '.mnemonic' < ${FIXTURES_DIR}/tendermint/ibc0/key_seed.json)
-echo "Key $(${RLY} tendermint keys restore ibc0 testkey "$SEED0") imported from ibc0 to relayer..."
+# SEED0=$(jq -r '.mnemonic' < ${FIXTURES_DIR}/tendermint/ibc0/key_seed.json)
+AUTHORIZED_RELAYER="dizzy charge mercy bunker shoulder dutch process shine office tuna achieve gaze awful child lottery impose like feed sheriff gauge toss drive tilt hero"
+UNAUTHORIZED_RELAYER="brain artist kite spring innocent glide scissors estate system document door mobile sibling gesture remember rule soccer tiger way interest recall sound shoot shy"
+echo "Key $(${RLY} tendermint keys restore ibc0 testkey "$AUTHORIZED_RELAYER") imported from ibc0 to relayer..."
 
-SEED1=$(jq -r '.mnemonic' < ${FIXTURES_DIR}/tendermint/ibc1/key_seed.json)
-echo "Key $(${RLY} tendermint keys restore ibc1 testkey "$SEED1") imported from ibc1 to relayer..."
+# SEED1=$(jq -r '.mnemonic' < ${FIXTURES_DIR}/tendermint/ibc1/key_seed.json)
+echo "Key $(${RLY} tendermint keys restore ibc1 testkey "$AUTHORIZED_RELAYER") imported from ibc1 to relayer..."
+
+TM_ADDRESS=$(${RLY} tendermint keys show ibc0 testkey)
+
+echo "Relayer address on both chains: $TM_ADDRESS"

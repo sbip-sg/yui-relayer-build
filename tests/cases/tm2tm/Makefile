@@ -9,13 +9,18 @@ network:
 
 .PHONY: test
 test:
-	./scripts/fixture
 	./scripts/init-rly
 	./scripts/handshake
 	./scripts/test-tx
+
+.PHONY: test-unauthorized
+test-unauthorized:
+	./scripts/init-rly-unauthorized
+	./scripts/handshake-unauthorized
+	./scripts/test-tx-unauthorized
 
 .PHONY: network-down
 network-down:
 	TAG=${DOCKER_TAG} $(DOCKER_COMPOSE) \
 		-f ../docker-compose-test.yaml \
-		down --volume --remove-orphans
+		down --volumes --remove-orphans

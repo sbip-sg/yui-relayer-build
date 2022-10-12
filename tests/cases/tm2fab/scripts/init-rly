@@ -23,8 +23,13 @@ ${RLY} config init
 ${RLY} chains add-dir configs/demo/
 
 # setup key for tendermint client
-SEED0=$(jq -r '.mnemonic' < ${FIXTURES_DIR}/tendermint/ibc0/key_seed.json)
-echo "Key $(${RLY} tendermint keys restore ibc0 testkey "$SEED0") imported from ibc0 to relayer..."
+# SEED0=$(jq -r '.mnemonic' < ${FIXTURES_DIR}/tendermint/ibc0/key_seed.json)
+# echo "Key $(${RLY} tendermint keys restore ibc0 testkey "$SEED0") imported from ibc0 to relayer..."
+
+AUTHORIZED_RELAYER="dizzy charge mercy bunker shoulder dutch process shine office tuna achieve gaze awful child lottery impose like feed sheriff gauge toss drive tilt hero"
+UNAUTHORIZED_RELAYER="brain artist kite spring innocent glide scissors estate system document door mobile sibling gesture remember rule soccer tiger way interest recall sound shoot shy"
+echo "Key $(${RLY} tendermint keys restore ibc0 testkey "$AUTHORIZED_RELAYER") imported from ibc0 to relayer..."
+
 
 ## setup wallet for fabric client
 USER_MSP_CONFIG_PATH="fabric/org1/users/User1@org1.example.com/msp"

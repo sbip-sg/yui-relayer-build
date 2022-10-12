@@ -1,0 +1,6 @@
+SCRIPT_DIR=$(cd $(dirname $0); pwd)
+RELAYER_HOME="unauthorized-yui-relayer"
+RLY_BINARY=${SCRIPT_DIR}/../../../../build/yrly
+RLY="${RLY_BINARY} --home ${RELAYER_HOME}"
+
+${RLY} service start ibc01

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -x
+
+SCRIPT_DIR=$(cd $(dirname $0); pwd)
+
+#RELAYER_CONF="$HOME/.urelayer"
+RLY_BINARY=${SCRIPT_DIR}/../../../../build/yrly
+RLY="${RLY_BINARY} --debug"
+FIXTURES_DIR=${SCRIPT_DIR}/../fixtures
+
+# setup key for tendermint client
+# SEED0=$(jq -r '.mnemonic' < ${FIXTURES_DIR}/tendermint/ibc0/key_seed.json)
+# SEED0="hub sudden want follow subject clog minimum tunnel fire thought click spider nation forget minor divide devote stove two category culture level wall present"
+SEED0="brain artist kite spring innocent glide scissors estate system document door mobile sibling gesture remember rule soccer tiger way interest recall sound shoot shy"
+echo "Key $(${RLY} tendermint keys restore ibc0 testkey "$SEED0") imported from ibc0 to relayer..."
+
+# SEED1=$(jq -r '.mnemonic' < ${FIXTURES_DIR}/tendermint/ibc1/key_seed.json)
+# SEED1="hub sudden want follow subject clog minimum tunnel fire thought click spider nation forget minor divide devote stove two category culture level wall present"
+SEED1="brain artist kite spring innocent glide scissors estate system document door mobile sibling gesture remember rule soccer tiger way interest recall sound shoot shy"
+echo "Key $(${RLY} tendermint keys restore ibc1 testkey "$SEED1") imported from ibc1 to relayer..."

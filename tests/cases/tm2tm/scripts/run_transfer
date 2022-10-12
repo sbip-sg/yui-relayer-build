@@ -1,0 +1,1 @@
+echo yes | /usr/bin/simd tx ibc-transfer transfer transfer channel-0 cosmos1mny435ckcu6tet4p32ya7pmz6vm9z78x828rnm 8test --home /root/data/ibc0/ --keyring-backend test --from user --chain-id ibc0

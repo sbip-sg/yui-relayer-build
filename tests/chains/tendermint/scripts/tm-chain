@@ -60,16 +60,32 @@ if ! mkdir -p $CHAINDIR/$CHAINID 2>/dev/null; then
 fi
 
 # Build genesis file incl account for passed address
-coins="100000000000stake,100000000000samoleans"
+coins="100000000000stake,10000test"
+relayer_coins="1000000000stake,100000relay"
 delegate="100000000000stake"
-
+mnemonic_user="hub sudden want follow subject clog minimum tunnel fire thought click spider nation forget minor divide devote stove two category culture level wall present"
+mnemonic_relayer1="brain artist kite spring innocent glide scissors estate system document door mobile sibling gesture remember rule soccer tiger way interest recall sound shoot shy"
+mnemonic_relayer2="dizzy charge mercy bunker shoulder dutch process shine office tuna achieve gaze awful child lottery impose like feed sheriff gauge toss drive tilt hero"
+# echo "$mnemonic1" | ./build/simd --home ./ keys add validator --keyring-backend="test" --recover --output json > ./validator_seed.json 
 $BINARY --home $CHAINDIR/$CHAINID --chain-id $CHAINID init $CHAINID &> /dev/null
 sleep 1
 $BINARY --home $CHAINDIR/$CHAINID keys add validator --keyring-backend="test" --output json > $CHAINDIR/$CHAINID/validator_seed.json 2> /dev/null
 sleep 1
-$BINARY --home $CHAINDIR/$CHAINID keys add user --keyring-backend="test" --output json > $CHAINDIR/$CHAINID/key_seed.json 2> /dev/null
+# $BINARY --home $CHAINDIR/$CHAINID keys add user --keyring-backend="test" --output json > $CHAINDIR/$CHAINID/key_seed.json 2> /dev/null
+echo "$mnemonic_user" | $BINARY --home $CHAINDIR/$CHAINID keys add user --keyring-backend="test" --recover --output json > $CHAINDIR/$CHAINID/key_seed.json 2> /dev/null
+sleep 1
+echo "$mnemonic_relayer1" | $BINARY --home $CHAINDIR/$CHAINID keys add relayer1 --keyring-backend="test" --recover --output json > $CHAINDIR/$CHAINID/relayer1_seed.json 2> /dev/null
+sleep 1
+echo "$mnemonic_relayer2" | $BINARY --home $CHAINDIR/$CHAINID keys add relayer2 --keyring-backend="test" --recover --output json > $CHAINDIR/$CHAINID/relayer2_seed.json 2> /dev/null
+
 sleep 1
 $BINARY --home $CHAINDIR/$CHAINID add-genesis-account $($BINARY --home $CHAINDIR/$CHAINID keys --keyring-backend="test" show user -a) $coins &> /dev/null
+
+sleep 1
+$BINARY --home $CHAINDIR/$CHAINID add-genesis-account $($BINARY --home $CHAINDIR/$CHAINID keys --keyring-backend="test" show relayer1 -a) $relayer_coins &> /dev/null
+sleep 1
+$BINARY --home $CHAINDIR/$CHAINID add-genesis-account $($BINARY --home $CHAINDIR/$CHAINID keys --keyring-backend="test" show relayer2 -a) $relayer_coins &> /dev/null
+
 sleep 1
 $BINARY --home $CHAINDIR/$CHAINID add-genesis-account $($BINARY --home $CHAINDIR/$CHAINID keys --keyring-backend="test" show validator -a) $coins  &> /dev/null
 sleep 1
