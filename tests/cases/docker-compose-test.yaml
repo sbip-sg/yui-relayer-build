@@ -39,8 +39,8 @@ services:
 
 # Ethereum
   ethereum-ganache0:
-    container_name: ethereum-ganache0
-    image: ethereum-ganache0:${TAG}
+    container_name: ethereum-geth0
+    image: ethereum-geth0:${TAG}
     ports:
       - 8645:8545
     healthcheck:
@@ -51,8 +51,8 @@ services:
     networks:
       - *network-common
   ethereum-ganache1:
-    container_name: ethereum-ganache1
-    image: ethereum-ganache1:${TAG}
+    container_name: ethereum-geth1
+    image: ethereum-geth1:${TAG}
     ports:
       - 8745:8545
     healthcheck:

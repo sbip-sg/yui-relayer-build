@@ -1,0 +1,243 @@
+geth --datadir test-chain-dir/test-dir-1 --networkid 111 --ipcpath test-chain-dir/chain1.ipc  --http.port 7777 --http --dev --http.addr "0.0.0.0" --http.corsdomain '*' --dev.period $1 --dev.gaslimit $2 --miner.gaslimit $2 --miner.gasprice 0 --txlookuplimit=0 &> log.txt
+
+NETWORK_ID0 ?= 13370
+NETWORK_ID1 ?= 13380
+CHAINID=1337
+
+geth --datadir test-chain-dir/test-dir-1 --networkid 13380 --http.port 7777 --http --dev --http.corsdomain '*' --dev.period 1 --dev.gaslimit 30000000 --miner.gaslimit 30000000 --miner.gasprice 0
+
+geth --datadir test-chain-dir/test-dir-1 init genesis.json
+
+curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0x702E40245797c5a2108A566b3CE2Bf14Bc6aF841", "latest"],"id":1}' http://localhost:7777
+
+curl -X POST --data '{"jsonrpc":"2.0","method":"eth_accounts","params":[],"id":1}  -H "Content-Type: application/json"  http://localhost:7777
+
+curl -X POST --data '{"jsonrpc":"2.0","method":"eth_sendTransaction","params":[{"from": "$ADDRESS", "to": "0x702E40245797c5a2108A566b3CE2Bf14Bc6aF841", "value": "0xde0b6b3a7640000"}],"id":1}' -H "Content-Type: application/json" http://localhost:7777
+
+
+curl -s -X POST --data '{"method":"eth_chainId","params":[],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" http://localhost:8545
+curl -s -X POST --data '{"jsonrpc":"2.0","method":"net_version"}' -H "Content-Type: application/json" http://localhost:8545
+
+curl -s -X POST --data '{"jsonrpc":"2.0","method":"net_version","id":1}' -H "Content-Type: application/json" http://localhost:8545
+
+
+
+curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0x1Be31A94361a391bBaFB2a4CCd704F57dc04d4bb", "latest"],"id":1}' http://localhost:8645
+curl -X POST -H "Content-Type: application/json" --data \
+'{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "eth_getCode",
+    "params": ["0x702E40245797c5a2108A566b3CE2Bf14Bc6aF841", "latest"]
+}' \
+http://localhost:8645
+
+
+
+Available Accounts
+==================
+(0) 0xa89F47C6b463f74d87572b058427dA0A13ec5425 (100 ETH)
+(1) 0xcBED645B1C1a6254f1149Df51d3591c6B3803007 (100 ETH)
+(2) 0x00731540cd6060991D6B9C57CE295998d9bC2faB (100 ETH)
+(3) 0xF885ef252e94def5C54746218704e0122c53Bdf5 (100 ETH)
+(4) 0x55797d2257292f97736A2610f2f182A9b61432D6 (100 ETH)
+(5) 0x47468060B00a27F9138F007eba28127593D79523 (100 ETH)
+(6) 0xA3dBD48429fb6f2309c36BFee865B74b74bd7F4E (100 ETH)
+(7) 0xCEa4C7063b8d9D40C8274a4A68fffad2F8d5eebD (100 ETH)
+(8) 0x0Ac126739bb9c448B2fF5B554abB41EC92F36dec (100 ETH)
+(9) 0x37f63b6f490C6752d1bE18604967AD102bB98883 (100 ETH)
+
+Private Keys
+==================
+(0) 0xe517af47112e4f501afb26e4f34eadc8b0ad8eadaf4962169fc04bc8ddbfe091
+(1) 0x713071a0b7101f177ae9c9ab0412eb7e43812bd289650f8db63f3055f2bcb029
+(2) 0x043a3427c36481e3cce70f5e6738b5f4d1a7e87fa90aa833f4bf2d3d690d4919
+(3) 0x19192ffb3b6ad04d11ed0f0cd69f34a5f353ad76ae10f009f73cabcc978cc4e0
+(4) 0x1ba0865fd34e0f97e17299f3ae1f2bac51e355f550b91edf9196ab0cf35a5b74
+(5) 0x7df97df3ce335ef2e79d6def19b9e21ed3e138e16abc919ddb286838289af57b
+(6) 0x19c20f12bae4b4c9ac851ab93cf2f4e60cae9fddbb8ccfa328fbaed7abc4d7e2
+(7) 0xc51738ac788bf531e47bc678771331ee55a9b8d5e8b0f69ae31d1ff31ae05682
+(8) 0xe492b5c9e50db60f7292cffa63f217b7d3f4ca70694ead845ef944d758ee9992
+(9) 0xf342fe784ced0993a942b7e2fe3237219e05d415fb39e3f8932b719ae6e49c6d
+
+HD Wallet
+==================
+Mnemonic:      math razor capable expose worth grape metal sunset metal sudden usage scheme
+Base HD Path:  m/44'/60'/0'/0/{account_index}
+
+
+
+
+
+Starting migrations...
+======================
+> Network name:    'chain0'
+> Network id:      13370
+> Block gas limit: 30000000 (0x1c9c380)
+
+
+1_initial_migration.js
+======================
+
+   Deploying 'Migrations'
+   ----------------------
+   > transaction hash:    0xbbb4b418b615e34a0dee0157233fbac4cac38e4412543571b8b479d65b81afcf
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x669bDE06af67B0573bfD4Ec151859f7D474328E9
+   > block number:        52
+   > block timestamp:     1696164164
+   > account:             0xa89F47C6b463f74d87572b058427dA0A13ec5425
+   > balance:             18.446572916263143799
+   > gas used:            170942 (0x29bbe)
+   > gas price:           1.001260348 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000171157446407816 ETH
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:     0.000171157446407816 ETH
+
+
+2_deploy_contracts.js
+=====================
+
+   Deploying 'IBCClient'
+   ---------------------
+   > transaction hash:    0x54edc26a5c4b0c6692bccc054b22600a7d835c3170271615541a9ce4cc8665a5
+   > Blocks: 0            Seconds: 0
+   > contract address:    0xdD5109D05Ac357E446992a60E64764041A0E8529
+   > block number:        59
+   > block timestamp:     1696164171
+   > account:             0xa89F47C6b463f74d87572b058427dA0A13ec5425
+   > balance:             18.445491340701808929
+   > gas used:            1035340 (0xfcc4c)
+   > gas price:           1.000495957 gwei
+   > value sent:          0 ETH
+   > total cost:          0.00103585348412038 ETH
+
+
+   Deploying 'IBCConnection'
+   -------------------------
+   > transaction hash:    0xa57cd6a4c755186fb311a18f154cc0ddd5c610bf1461ad7320ce497ca14c9cb9
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x361552A65C96621003C62C5971b910a1fdC9ba78
+   > block number:        61
+   > block timestamp:     1696164173
+   > account:             0xa89F47C6b463f74d87572b058427dA0A13ec5425
+   > balance:             18.442350849653471247
+   > gas used:            3139299 (0x2fe6e3)
+   > gas price:           1.000379718 gwei
+   > value sent:          0 ETH
+   > total cost:          0.003140491048337682 ETH
+
+
+   Deploying 'IBCChannelHandshake'
+   -------------------------------
+   > transaction hash:    0x896bd0ec4e2bd836b52cf9e5700d781914be94dd9a221659278de0b1bb693135
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x9eBF3956EE45B2b9F1fC85FB8990ce6be52F47a6
+   > block number:        63
+   > block timestamp:     1696164175
+   > account:             0xa89F47C6b463f74d87572b058427dA0A13ec5425
+   > balance:             18.439341166302888047
+   > gas used:            3008800 (0x2de920)
+   > gas price:           1.000293589 gwei
+   > value sent:          0 ETH
+   > total cost:          0.0030096833505832 ETH
+
+
+   Deploying 'IBCPacket'
+   ---------------------
+   > transaction hash:    0x8f537bc97d2447ead8cc26f3e748ad77bf1aee2dc4d30648ed37cece0a210866
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x727A5648832D2b317925CE043eA9b7fE04B4CD55
+   > block number:        65
+   > block timestamp:     1696164177
+   > account:             0xa89F47C6b463f74d87572b058427dA0A13ec5425
+   > balance:             18.436803187896871547
+   > gas used:            2537391 (0x26b7af)
+   > gas price:           1.0002315 gwei
+   > value sent:          0 ETH
+   > total cost:          0.0025379784060165 ETH
+
+
+   Deploying 'OwnableIBCHandler'
+   -----------------------------
+   > transaction hash:    0x3a85576d36fa68e49783dcc37315b8b952d589f800b1252fa140133637cfb7ae
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x702E40245797c5a2108A566b3CE2Bf14Bc6aF841
+   > block number:        67
+   > block timestamp:     1696164179
+   > account:             0xa89F47C6b463f74d87572b058427dA0A13ec5425
+   > balance:             18.432256833147480175
+   > gas used:            4545526 (0x455bf6)
+   > gas price:           1.000182322 gwei
+   > value sent:          0 ETH
+   > total cost:          0.004546354749391372 ETH
+
+
+   Deploying 'MockClient'
+   ----------------------
+   > transaction hash:    0xee295fee51d6744d9334ec2698fda0906094e7784cd890052bfd5ed7ab2d8600
+   > Blocks: 0            Seconds: 0
+   > contract address:    0xaa43d337145E8930d01cb4E60Abf6595C692921E
+   > block number:        69
+   > block timestamp:     1696164181
+   > account:             0xa89F47C6b463f74d87572b058427dA0A13ec5425
+   > balance:             18.429921301298233303
+   > gas used:            2335198 (0x23a1de)
+   > gas price:           1.000142964 gwei
+   > value sent:          0 ETH
+   > total cost:          0.002335531849246872 ETH
+
+deploying app contracts
+
+   Deploying 'SimpleToken'
+   -----------------------
+   > transaction hash:    0xcdcb4e6c6571f951ea590ce7d93259d4c3eab74b6ef13ed72ee7258dbe60f9f3
+   > Blocks: 0            Seconds: 0
+   > contract address:    0xff77D90D6aA12db33d3Ba50A34fB25401f6e4c4F
+   > block number:        71
+   > block timestamp:     1696164183
+   > account:             0xa89F47C6b463f74d87572b058427dA0A13ec5425
+   > balance:             18.429246955299410579
+   > gas used:            674269 (0xa49dd)
+   > gas price:           1.000114196 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000674345998822724 ETH
+
+
+   Deploying 'ICS20Bank'
+   ---------------------
+   > transaction hash:    0x649f7046cb910eeab6441554ba61fac6d6a01213b2ef76bb271ca7b0070d19c7
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x2F5703804E29F4252FA9405B8D357220d11b3bd9
+   > block number:        73
+   > block timestamp:     1696164185
+   > account:             0xa89F47C6b463f74d87572b058427dA0A13ec5425
+   > balance:             18.427936287167604403
+   > gas used:            1310551 (0x13ff57)
+   > gas price:           1.000089376 gwei
+   > value sent:          0 ETH
+   > total cost:          0.001310668131806176 ETH
+
+
+   Deploying 'ICS20TransferBank'
+   -----------------------------
+   > transaction hash:    0x5967097cab9b9487cc6669181c55019529feda7ae0e921e3975c1c9d31ddf8c6
+   > Blocks: 0            Seconds: 0
+   > contract address:    0xaE1C9125BbcF63bf51294C4D15CBD472782E330D
+   > block number:        75
+   > block timestamp:     1696164187
+   > account:             0xa89F47C6b463f74d87572b058427dA0A13ec5425
+   > balance:             18.425796157789184045
+   > gas used:            2139982 (0x20a74e)
+   > gas price:           1.000068869 gwei
+   > value sent:          0 ETH
+   > total cost:          0.002140129378420358 ETH
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:     0.020731036396745264 ETH

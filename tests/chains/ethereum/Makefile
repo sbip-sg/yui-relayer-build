@@ -14,11 +14,11 @@ docker-images:
 	make deploy-contract
 	make save-contract-address
 	make docker-commit
-	make down-scaffold
+	# make down-scaffold
 
 .PHONY: deploy-contract
 deploy-contract:
-	make wait-for-launch ATTEMPT=30 CONTAINER=ethereum-ganache0-scaffold
+	make wait-for-launch ATTEMPT=30 CONTAINER=ethereum-geth0-scaffold
 	cd contract && npm install && npm run migrate
 
 .PHONY: up-scaffold
@@ -36,5 +36,5 @@ save-contract-address:
 
 .PHONY: docker-commit
 docker-commit:
-	$(SCRIPT_DIR)/docker/commitImage.sh  $(DOCKER_REPO) $(DOCKER_TAG) ethereum-ganache0 ethereum-ganache0-scaffold $(NETWORK_ID0)
-	$(SCRIPT_DIR)/docker/commitImage.sh  $(DOCKER_REPO) $(DOCKER_TAG) ethereum-ganache1 ethereum-ganache1-scaffold $(NETWORK_ID1)
+	$(SCRIPT_DIR)/docker/commitImage.sh  $(DOCKER_REPO) $(DOCKER_TAG) ethereum-geth0 ethereum-geth0-scaffold $(NETWORK_ID0)
+	$(SCRIPT_DIR)/docker/commitImage.sh  $(DOCKER_REPO) $(DOCKER_TAG) ethereum-geth1 ethereum-geth1-scaffold $(NETWORK_ID1)
